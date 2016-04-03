@@ -1,0 +1,7 @@
+[package]
+name = "sdl2-sandbox"
+version = "0.1.0"
+authors = ["Mike Sampson <mike@sambodata.com>"]
+
+[dependencies]
+sdl2 = "*"
