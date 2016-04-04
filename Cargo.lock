@@ -2,12 +2,18 @@
 name = "sdl2-sandbox"
 version = "0.1.0"
 dependencies = [
+ "cfor 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "sdl2 0.17.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "bitflags"
 version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "cfor"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]

@@ -1,6 +1,13 @@
 extern crate sdl2;
 
+#[macro_use]
+extern crate cfor;
+
+mod starfield;
+use starfield::get_stars;
+
 use sdl2::pixels::Color;
+use sdl2::rect::Point;
 use std::thread;
 use std::time::Duration;
 
@@ -21,6 +28,16 @@ fn main() {
     // Render a fully black window
     renderer.set_draw_color(Color::RGB(0, 0, 0));
     renderer.clear();
+
+    let stars = get_stars(0.0, 0.0, 800.0, 600.0);
+
+    for star in stars {
+        let (x, y, brightness) = star;
+        let c = (brightness * 255.0).round() as u8;
+        renderer.set_draw_color(Color::RGB(c, c, c));
+        renderer.draw_point(Point::new(x.round() as i32, y.round() as i32)).unwrap();
+    }
+
     renderer.present();
 
     thread::sleep(Duration::from_millis(3000));
