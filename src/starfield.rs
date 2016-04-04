@@ -23,16 +23,4 @@ pub fn get_stars(x: f64, y: f64, w: f64, h: f64) -> Vec<(f64, f64, f64)> {
     }}
 
     stars
-/*
-for (var k = k_min; k < k_min + 5; k++) {
-    var period = Math.exp(-k);
-    for (var m = Math.floor(offsetX / period); m <= Math.ceil((offsetX + width) / period); m++)
-      for (var n = Math.floor(offsetY / period); n <= Math.ceil((offsetY + height) / period); n++)
-        stars.push(new Star(
-          m * period,
-          n * period,
-          Math.atan(10 * Math.exp(k_cont - k)) * 2 / Math.PI));
-}
-*/
-
 }
