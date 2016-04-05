@@ -8,6 +8,7 @@ use starfield::get_stars;
 
 use sdl2::pixels::Color;
 use sdl2::rect::Point;
+use sdl2::event::Event;
 use std::thread;
 use std::time::Duration;
 
@@ -25,20 +26,32 @@ fn main() {
         .accelerated()
         .build().unwrap();
 
-    // Render a fully black window
-    renderer.set_draw_color(Color::RGB(0, 0, 0));
-    renderer.clear();
+    let mut event_pump = sdl_context.event_pump().unwrap();
 
-    let stars = get_stars(0.0, 0.0, 800.0, 600.0);
+    // main loop
+    'main: loop {
 
-    for star in stars {
-        let (x, y, brightness) = star;
-        let c = (brightness * 255.0).round() as u8;
-        renderer.set_draw_color(Color::RGB(c, c, c));
-        renderer.draw_point(Point::new(x.round() as i32, y.round() as i32)).unwrap();
+        for event in event_pump.poll_iter() {
+            match event {
+                Event::KeyDown { .. } => break 'main,
+                _ => {}
+            }
+        }
+
+        // Render a fully black window
+        renderer.set_draw_color(Color::RGB(0, 0, 0));
+        renderer.clear();
+
+        let stars = get_stars(0.0, 0.0, 800.0, 600.0);
+
+        for star in stars {
+            let (x, y, brightness) = star;
+            let c = (brightness * 255.0).round() as u8;
+            renderer.set_draw_color(Color::RGB(c, c, c));
+            renderer.draw_point(Point::new(x.round() as i32, y.round() as i32)).unwrap();
+        }
+
+        renderer.present();
     }
 
-    renderer.present();
-
-    thread::sleep(Duration::from_millis(3000));
 }
