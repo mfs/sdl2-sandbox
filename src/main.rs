@@ -9,8 +9,6 @@ use starfield::get_stars;
 use sdl2::pixels::Color;
 use sdl2::rect::Point;
 use sdl2::event::Event;
-use std::thread;
-use std::time::Duration;
 
 fn main() {
     // Initialize SDL2
@@ -28,12 +26,24 @@ fn main() {
 
     let mut event_pump = sdl_context.event_pump().unwrap();
 
+    let mut vx = 0.0;
+    let mut vy = 0.0;
+
     // main loop
     'main: loop {
 
         for event in event_pump.poll_iter() {
+            use sdl2::keyboard::Keycode::*;
             match event {
-                Event::KeyDown { .. } => break 'main,
+                Event::KeyDown { keycode, .. } => {
+                    match keycode {
+                        Some(Left)  => vx -= 1.0,
+                        Some(Right) => vx += 1.0,
+                        Some(Down)  => vy += 1.0,
+                        Some(Up)    => vy -= 1.0,
+                        _           => break 'main,
+                    }
+                },
                 _ => {}
             }
         }
@@ -42,7 +52,7 @@ fn main() {
         renderer.set_draw_color(Color::RGB(0, 0, 0));
         renderer.clear();
 
-        let stars = get_stars(0.0, 0.0, 800.0, 600.0);
+        let stars = get_stars(vx, vy, 800.0, 600.0);
 
         for star in stars {
             let (x, y, brightness) = star;
@@ -50,7 +60,7 @@ fn main() {
             renderer.set_draw_color(Color::RGB(c, c, c));
             renderer.draw_point(Point::new(x.round() as i32, y.round() as i32)).unwrap();
         }
-
+        println!("vx: {} - vy: {}", vx, vy);
         renderer.present();
     }
 
