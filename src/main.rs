@@ -58,9 +58,10 @@ fn main() {
             let (x, y, brightness) = star;
             let c = (brightness * 255.0).round() as u8;
             renderer.set_draw_color(Color::RGB(c, c, c));
-            renderer.draw_point(Point::new(x.round() as i32, y.round() as i32)).unwrap();
+            renderer.draw_point(
+                Point::new((x - vx).round() as i32, (y - vy).round() as i32)
+            ).unwrap();
         }
-        println!("vx: {} - vy: {}", vx, vy);
         renderer.present();
     }
 
