@@ -1,4 +1,5 @@
 extern crate sdl2;
+extern crate fnv;
 
 #[macro_use]
 extern crate cfor;
@@ -51,7 +52,6 @@ fn main() {
         // Render a fully black window
         renderer.set_draw_color(Color::RGB(0, 0, 0));
         renderer.clear();
-
         let stars = get_stars(vx, vy, 800.0, 600.0);
 
         for star in stars {
