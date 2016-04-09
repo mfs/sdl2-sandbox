@@ -1,4 +1,5 @@
 extern crate sdl2;
+extern crate sdl2_ttf;
 extern crate fnv;
 
 #[macro_use]
@@ -7,9 +8,12 @@ extern crate cfor;
 mod starfield;
 use starfield::get_stars;
 
+use std::path::Path;
 use sdl2::pixels::Color;
 use sdl2::rect::Point;
+use sdl2::rect::Rect;
 use sdl2::event::Event;
+use sdl2::render::TextureQuery;
 
 fn main() {
     // Initialize SDL2
@@ -24,6 +28,14 @@ fn main() {
     let mut renderer = window.renderer()
         .accelerated()
         .build().unwrap();
+
+    let ttf_context = sdl2_ttf::init().unwrap();
+    let font = ttf_context.load_font(Path::new("assets/Inconsolata-Bold.ttf"), 16).unwrap();
+
+    let surface = font.render("Starfield")
+                .blended(Color::RGBA(255, 255, 255, 255)).unwrap();
+    let mut texture = renderer.create_texture_from_surface(&surface).unwrap();
+    let TextureQuery { width, height, .. } = texture.query();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
 
@@ -62,6 +74,7 @@ fn main() {
                 Point::new((x - vx).round() as i32, (y - vy).round() as i32)
             ).unwrap();
         }
+        renderer.copy(&mut texture, None, Some(Rect::new(10, 10, width, height)));
         renderer.present();
     }
 
