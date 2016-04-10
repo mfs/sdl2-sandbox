@@ -78,7 +78,7 @@ fn main() {
                 Point::new((x - vx).round() as i32, (y - vy).round() as i32)
             ).unwrap();
         }
-        text(&mut renderer, &font, "Starfield",  10, 10);
+        text(&mut renderer, &font, &format!("Starfield x: {} y: {}", vx, vy),  10, 10);
         renderer.present();
     }
 
