@@ -13,7 +13,16 @@ use sdl2::pixels::Color;
 use sdl2::rect::Point;
 use sdl2::rect::Rect;
 use sdl2::event::Event;
-use sdl2::render::TextureQuery;
+use sdl2::render::{Renderer, TextureQuery};
+
+fn text(renderer: &mut Renderer, font: &sdl2_ttf::Font, text: &str, x: i32, y: i32) {
+    let surface = font.render(text)
+                .blended(Color::RGBA(255, 255, 255, 255)).unwrap();
+    let mut texture = renderer.create_texture_from_surface(&surface).unwrap();
+    let TextureQuery { width, height, .. } = texture.query();
+
+    renderer.copy(&mut texture, None, Some(Rect::new(x, y, width, height)));
+}
 
 fn main() {
     // Initialize SDL2
@@ -31,11 +40,6 @@ fn main() {
 
     let ttf_context = sdl2_ttf::init().unwrap();
     let font = ttf_context.load_font(Path::new("assets/Inconsolata-Bold.ttf"), 16).unwrap();
-
-    let surface = font.render("Starfield")
-                .blended(Color::RGBA(255, 255, 255, 255)).unwrap();
-    let mut texture = renderer.create_texture_from_surface(&surface).unwrap();
-    let TextureQuery { width, height, .. } = texture.query();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
 
@@ -74,7 +78,7 @@ fn main() {
                 Point::new((x - vx).round() as i32, (y - vy).round() as i32)
             ).unwrap();
         }
-        renderer.copy(&mut texture, None, Some(Rect::new(10, 10, width, height)));
+        text(&mut renderer, &font, "Starfield",  10, 10);
         renderer.present();
     }
 
