@@ -46,6 +46,12 @@ fn main() {
     let mut vx = 0.0;
     let mut vy = 0.0;
 
+    // track starfield extents for debuging
+    let mut stars_x_min: f64 = 0.0;
+    let mut stars_x_max: f64 = 0.0;
+    let mut stars_y_min: f64 = 0.0;
+    let mut stars_y_max: f64 = 0.0;
+
     // main loop
     'main: loop {
 
@@ -72,6 +78,10 @@ fn main() {
 
         for star in stars {
             let (x, y, brightness) = star;
+            stars_x_min = stars_x_min.min(x - vx);
+            stars_x_max = stars_x_max.max(x - vx);
+            stars_y_min = stars_y_min.min(y - vy);
+            stars_y_max = stars_y_max.max(y - vy);
             let c = (brightness * 255.0).round() as u8;
             renderer.set_draw_color(Color::RGB(c, c, c));
             renderer.draw_point(
@@ -79,6 +89,7 @@ fn main() {
             ).unwrap();
         }
         text(&mut renderer, &font, &format!("Starfield x: {} y: {}", vx, vy),  10, 10);
+        text(&mut renderer, &font, &format!("Extents x: {} {} y: {} {}", stars_x_min, stars_x_max, stars_y_min, stars_y_max),  10, 30);
         renderer.present();
     }
 
