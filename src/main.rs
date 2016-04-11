@@ -78,10 +78,10 @@ fn main() {
 
         for star in stars {
             let (x, y, brightness) = star;
-            stars_x_min = stars_x_min.min(x - vx);
-            stars_x_max = stars_x_max.max(x - vx);
-            stars_y_min = stars_y_min.min(y - vy);
-            stars_y_max = stars_y_max.max(y - vy);
+            stars_x_min = stars_x_min.min(x);
+            stars_x_max = stars_x_max.max(x);
+            stars_y_min = stars_y_min.min(y);
+            stars_y_max = stars_y_max.max(y);
             let c = (brightness * 255.0).round() as u8;
             renderer.set_draw_color(Color::RGB(c, c, c));
             renderer.draw_point(
