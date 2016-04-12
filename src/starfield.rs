@@ -17,7 +17,7 @@ fn jitter(a: f64, b: f64, k: f64, m: f64, n: f64 ) -> f64 {
 }
 
 
-pub fn get_stars(x: f64, y: f64, w: f64, h: f64) -> Vec<(f64, f64, f64)> {
+pub fn get_stars(x: f64, y: f64, w: f64, h: f64, jit: bool) -> Vec<(f64, f64, f64)> {
     let mut stars = Vec::new();
 
     let k_cont = -(w * h).ln() / 2.0;
@@ -31,11 +31,17 @@ pub fn get_stars(x: f64, y: f64, w: f64, h: f64) -> Vec<(f64, f64, f64)> {
             cfor!{let mut n = (y / period).floor(); n <= ((y + h) / period).ceil(); n += 1.0; {
 
                 let brightness: f64 = (10.0 * (k_cont - k).exp()).atan() * 2.0 / consts::PI;
-                stars.push((
-                    jitter(m, x, k, m, n) * period,
-                    jitter(n, y, k, m, n) * period,
-                    brightness
-                ));
+                let s = match jit {
+                    true => ( jitter(m, x, k, m, n) * period,
+                              jitter(n, y, k, m, n) * period,
+                              brightness
+                            ),
+                    false => ( m * period,
+                               n * period,
+                               brightness
+                             ),
+                };
+                stars.push(s);
             }}
 
         }}

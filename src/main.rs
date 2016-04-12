@@ -74,7 +74,7 @@ fn main() {
         // Render a fully black window
         renderer.set_draw_color(Color::RGB(0, 0, 0));
         renderer.clear();
-        let stars = get_stars(vx, vy, 800.0, 600.0);
+        let stars = get_stars(vx, vy, 800.0, 600.0, false);
 
         for star in stars {
             let (x, y, brightness) = star;
