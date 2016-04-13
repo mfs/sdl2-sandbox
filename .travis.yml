@@ -1,3 +1,7 @@
+# This seems like the best way. Do the same for sdl2-ttf-dev.
+# Turning off builds in travis-ci for now.
+# https://github.com/PistonDevelopers/gfx_graphics/commit/b2c6840d446921c47dde51e92d24c07622962481
+
 language: rust
 rust:
     - stable
