@@ -7,7 +7,7 @@ use std::hash::Hasher;
 
 fn jitter(a: f64, b: f64, k: f64, m: f64, n: f64 ) -> f64 {
 
-    let s = format!("{}:{}:{}:{}", k, m, n, b);
+    let s = format!("{}:{}:{}", k, m, n);
     let mut hash = FnvHasher::default();
     hash.write(s.as_bytes());
 
