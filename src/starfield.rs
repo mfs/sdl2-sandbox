@@ -12,15 +12,14 @@ fn hash(value: &str) -> u64 {
     hash.finish()
 }
 
-fn jitter(a: f64, b: f64, k: f64, m: f64, n: f64 ) -> f64 {
+fn hash_star(x: f64, y: f64, l: f64) -> [f64;3] {
 
-    let s = format!("{}:{}:{}", k, m, n);
-
-    let frac: f64 = hash(&s) as f64 / (::std::u64::MAX >> 1) as f64;
-
-    a + frac
+    [
+        hash(&format!("{}:{}:{}a", x, y, l)) as f64 / ::std::u64::MAX as f64,
+        hash(&format!("{}:{}:{}b", x, y, l)) as f64 / ::std::u64::MAX as f64,
+        hash(&format!("{}:{}:{}c", x, y, l)) as f64 / ::std::u64::MAX as f64,
+    ]
 }
-
 
 pub fn get_stars(x: f64, y: f64, w: f64, h: f64, jit: bool) -> Vec<(f64, f64, f64)> {
     let mut stars = Vec::new();
@@ -34,11 +33,11 @@ pub fn get_stars(x: f64, y: f64, w: f64, h: f64, jit: bool) -> Vec<(f64, f64, f6
         cfor!{let mut m = (x / period).floor(); m <= ((x + w) / period).ceil(); m += 1.0; {
 
             cfor!{let mut n = (y / period).floor(); n <= ((y + h) / period).ceil(); n += 1.0; {
-
+                let h = hash_star(m, n, k);
                 let brightness: f64 = (10.0 * (k_cont - k).exp()).atan() * 2.0 / consts::PI;
                 let s = match jit {
-                    true => ( jitter(m, x, k, m, n) * period,
-                              jitter(n, y, k, m, n) * period,
+                    true => ( m * period + h[0] * period,
+                              n * period + h[1] * period,
                               brightness
                             ),
                     false => ( m * period,
