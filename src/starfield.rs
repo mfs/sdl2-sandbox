@@ -34,7 +34,7 @@ pub fn get_stars(x: f64, y: f64, w: f64, h: f64) -> Vec<(f64, f64, f64)> {
 
             cfor!{let mut n = (y / period).floor(); n <= ((y + h) / period).ceil(); n += 1.0; {
                 let h = hash_star(m, n, k);
-                let brightness: f64 = (10.0 * (k_cont - k).exp()).atan() * 2.0 / consts::PI;
+                let brightness: f64 = (10.0 * (k_cont - k - h[2]).exp()).atan() * 2.0 / consts::PI;
                    stars.push(( m * period + h[0] * period,
                                 n * period + h[1] * period,
                                 brightness
