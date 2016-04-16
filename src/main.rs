@@ -35,7 +35,7 @@ fn main() {
         .build().unwrap();
 
     let mut renderer = window.renderer()
-        .accelerated()
+        .accelerated().present_vsync()
         .build().unwrap();
 
     let ttf_context = sdl2_ttf::init().unwrap();
