@@ -1,5 +1,6 @@
 extern crate sdl2;
 extern crate sdl2_ttf;
+extern crate sdl2_image;
 extern crate fnv;
 
 #[macro_use]
@@ -14,6 +15,7 @@ use sdl2::rect::Point;
 use sdl2::rect::Rect;
 use sdl2::event::Event;
 use sdl2::render::{Renderer, TextureQuery};
+use sdl2_image::LoadTexture;
 
 fn text(renderer: &mut Renderer, font: &sdl2_ttf::Font, text: &str, x: i32, y: i32) {
     let surface = font.render(text)
@@ -40,6 +42,8 @@ fn main() {
 
     let ttf_context = sdl2_ttf::init().unwrap();
     let font = ttf_context.load_font(Path::new("assets/Inconsolata-Bold.ttf"), 16).unwrap();
+
+    let ship = renderer.load_texture(Path::new("assets/fighterspr1-small.png")).unwrap();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
 
@@ -88,6 +92,7 @@ fn main() {
                 Point::new((x - vx).round() as i32, (y - vy).round() as i32)
             ).unwrap();
         }
+        renderer.copy(&ship, None, Some(Rect::new(351, 215, 98, 169)));
         text(&mut renderer, &font, &format!("Starfield x: {} y: {}", vx, vy),  10, 10);
         text(&mut renderer, &font, &format!("Extents x: {} {} y: {} {}", stars_x_min, stars_x_max, stars_y_min, stars_y_max),  10, 30);
         renderer.present();
