@@ -79,8 +79,10 @@ fn main() {
         let mut stars_x_max: f64 = 0.0;
         let mut stars_y_min: f64 = 0.0;
         let mut stars_y_max: f64 = 0.0;
+        let mut stars_n: u64 = 0;
 
         for star in stars {
+            stars_n += 1;
             let (x, y, brightness) = star;
             stars_x_min = stars_x_min.min(x);
             stars_x_max = stars_x_max.max(x);
@@ -93,7 +95,7 @@ fn main() {
             ).unwrap();
         }
         renderer.copy(&ship, None, Some(Rect::new(351, 215, 98, 169)));
-        text(&mut renderer, &font, &format!("Starfield x: {} y: {}", vx, vy),  10, 10);
+        text(&mut renderer, &font, &format!("Starfield x: {} y: {} n: {}", vx, vy, stars_n),  10, 10);
         text(&mut renderer, &font, &format!("Extents x: {} {} y: {} {}", stars_x_min, stars_x_max, stars_y_min, stars_y_max),  10, 30);
         renderer.present();
     }
