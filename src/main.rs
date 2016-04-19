@@ -80,6 +80,7 @@ fn main() {
         let mut stars_y_min: f64 = 0.0;
         let mut stars_y_max: f64 = 0.0;
         let mut stars_n: u64 = 0;
+        let mut stars_rendered_n: u64 = 0;
 
         for star in stars {
             stars_n += 1;
@@ -88,6 +89,10 @@ fn main() {
             stars_x_max = stars_x_max.max(x);
             stars_y_min = stars_y_min.min(y);
             stars_y_max = stars_y_max.max(y);
+            if x - vx < 0.0 || x - vx >= 800.0 || y - vy < 0.0 || y - vy >= 600.0 {
+                continue;
+            }
+            stars_rendered_n += 1;
             let c = (brightness * 255.0).round() as u8;
             renderer.set_draw_color(Color::RGB(c, c, c));
             renderer.draw_point(
@@ -95,7 +100,7 @@ fn main() {
             ).unwrap();
         }
         renderer.copy(&ship, None, Some(Rect::new(351, 215, 98, 169)));
-        text(&mut renderer, &font, &format!("Starfield x: {} y: {} n: {}", vx, vy, stars_n),  10, 10);
+        text(&mut renderer, &font, &format!("Starfield x: {} y: {} n: {} n-ren: {}", vx, vy, stars_n, stars_rendered_n),  10, 10);
         text(&mut renderer, &font, &format!("Extents x: {} {} y: {} {}", stars_x_min, stars_x_max, stars_y_min, stars_y_max),  10, 30);
         renderer.present();
     }
