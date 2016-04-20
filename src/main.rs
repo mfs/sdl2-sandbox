@@ -50,6 +50,9 @@ fn main() {
     let mut vx = 0.0;
     let mut vy = 0.0;
 
+    let mut timer = sdl_context.timer().unwrap();
+    let mut step = timer.ticks() as f64 / 1000.0;
+
     // main loop
     'main: loop {
 
@@ -68,6 +71,10 @@ fn main() {
                 _ => {}
             }
         }
+
+        let tmp = timer.ticks() as f64 / 1000.0;
+        vy -= 200.0 * (tmp - step);
+        step = tmp;
 
         // Render a fully black window
         renderer.set_draw_color(Color::RGB(0, 0, 0));
