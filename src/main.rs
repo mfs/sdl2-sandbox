@@ -49,6 +49,7 @@ fn main() {
 
     let mut vx = 0.0;
     let mut vy = 0.0;
+    let mut rot = 0.0;
 
     let mut timer = sdl_context.timer().unwrap();
     let mut step = timer.ticks() as f64 / 1000.0;
@@ -73,6 +74,10 @@ fn main() {
         }
 
         let tmp = timer.ticks() as f64 / 1000.0;
+        rot += 15.0 * (tmp - step);
+        if rot > 360.0 {
+            rot -= 360.0;
+        }
         vy -= 200.0 * (tmp - step);
         step = tmp;
 
@@ -106,8 +111,8 @@ fn main() {
                 Point::new((x - vx).round() as i32, (y - vy).round() as i32)
             ).unwrap();
         }
-        renderer.copy(&ship, None, Some(Rect::new(351, 215, 98, 169)));
-        text(&mut renderer, &font, &format!("Starfield x: {} y: {} n: {} n-ren: {}", vx, vy, stars_n, stars_rendered_n),  10, 10);
+        renderer.copy_ex(&ship, None, Some(Rect::new(351, 215, 98, 169)), rot, None, false, false ).unwrap();
+        text(&mut renderer, &font, &format!("Starfield x: {:.2} y: {:.2} r: {:.2} n: {} n-ren: {}", vx, vy, rot, stars_n, stars_rendered_n),  10, 10);
         text(&mut renderer, &font, &format!("Extents x: {} {} y: {} {}", stars_x_min, stars_x_max, stars_y_min, stars_y_max),  10, 30);
         renderer.present();
     }
