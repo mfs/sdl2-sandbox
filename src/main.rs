@@ -44,6 +44,7 @@ fn main() {
     let font = ttf_context.load_font(Path::new("assets/Inconsolata-Bold.ttf"), 16).unwrap();
 
     let ship = renderer.load_texture(Path::new("assets/fighterspr1-small.png")).unwrap();
+    let asteroid = renderer.load_texture(Path::new("assets/asteroid1.png")).unwrap();
 
     let mut event_pump = sdl_context.event_pump().unwrap();
 
@@ -112,6 +113,7 @@ fn main() {
             ).unwrap();
         }
         renderer.copy_ex(&ship, None, Some(Rect::new(351, 215, 98, 169)), rot, None, false, false ).unwrap();
+        renderer.copy(&asteroid, Some(Rect::new(0, 0, 72, 72)), Some(Rect::new(60, 60, 72, 72)));
         text(&mut renderer, &font, &format!("Starfield x: {:.2} y: {:.2} r: {:.2} n: {} n-ren: {}", vx, vy, rot, stars_n, stars_rendered_n),  10, 10);
         text(&mut renderer, &font, &format!("Extents x: {} {} y: {} {}", stars_x_min, stars_x_max, stars_y_min, stars_y_max),  10, 30);
         renderer.present();
