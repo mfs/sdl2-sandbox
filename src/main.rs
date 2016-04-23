@@ -113,11 +113,27 @@ fn main() {
                 Point::new((x - vx).round() as i32, (y - vy).round() as i32)
             ).unwrap();
         }
-        renderer.copy_ex(&ship, None, Some(Rect::new(351, 215, 98, 169)), rot, None, false, false ).unwrap();
-        renderer.copy(&asteroid, Some(Rect::new(72 * ((frame / 5) % 5), 72 * ((frame / 5) / 5), 72, 72)), Some(Rect::new(60, 60, 72, 72)));
+
+        renderer.copy_ex(&ship, None,
+                         Some(Rect::new(351, 215, 98, 169)),
+                         rot, None, false, false).unwrap();
+
+        renderer.copy(&asteroid,
+                      Some(Rect::new(72 * ((frame / 5) % 5), 72 * ((frame / 5) / 5), 72, 72)),
+                      Some(Rect::new(60, 60, 72, 72)));
+
         frame = (frame + 1) % 95;
-        text(&mut renderer, &font, &format!("Starfield x: {:.2} y: {:.2} r: {:.2} n: {} n-ren: {}", vx, vy, rot, stars_n, stars_rendered_n),  10, 10);
-        text(&mut renderer, &font, &format!("Extents x: {} {} y: {} {}", stars_x_min, stars_x_max, stars_y_min, stars_y_max),  10, 30);
+
+        text(&mut renderer, &font,
+             &format!("Starfield x: {:.2} y: {:.2} r: {:.2} n: {} n-ren: {}",
+                      vx, vy, rot, stars_n, stars_rendered_n),
+             10, 10);
+
+        text(&mut renderer, &font,
+             &format!("Extents x: {} {} y: {} {}",
+                      stars_x_min, stars_x_max, stars_y_min, stars_y_max),
+             10, 30);
+
         renderer.present();
     }
 
