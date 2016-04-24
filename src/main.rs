@@ -26,6 +26,15 @@ fn text(renderer: &mut Renderer, font: &sdl2_ttf::Font, text: &str, x: i32, y: i
     renderer.copy(&mut texture, None, Some(Rect::new(x, y, width, height)));
 }
 
+fn render_star(renderer: &mut Renderer, vx: f64, vy: f64, star: (f64, f64, f64)) {
+    let (x, y, brightness) = star;
+    let c = (brightness * 255.0).round() as u8;
+    renderer.set_draw_color(Color::RGB(c, c, c));
+    renderer.draw_point(
+        Point::new((x - vx).round() as i32, (y - vy).round() as i32)
+    ).unwrap();
+}
+
 fn main() {
     // Initialize SDL2
     let sdl_context = sdl2::init().unwrap();
@@ -98,7 +107,7 @@ fn main() {
 
         for star in stars {
             stars_n += 1;
-            let (x, y, brightness) = star;
+            let (x, y, _) = star;
             stars_x_min = stars_x_min.min(x);
             stars_x_max = stars_x_max.max(x);
             stars_y_min = stars_y_min.min(y);
@@ -107,11 +116,7 @@ fn main() {
                 continue;
             }
             stars_rendered_n += 1;
-            let c = (brightness * 255.0).round() as u8;
-            renderer.set_draw_color(Color::RGB(c, c, c));
-            renderer.draw_point(
-                Point::new((x - vx).round() as i32, (y - vy).round() as i32)
-            ).unwrap();
+            render_star(&mut renderer, vx, vy, star);
         }
 
         renderer.copy_ex(&ship, None,
