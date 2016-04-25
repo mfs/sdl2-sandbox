@@ -17,6 +17,9 @@ use sdl2::event::Event;
 use sdl2::render::{Renderer, TextureQuery};
 use sdl2_image::LoadTexture;
 
+const WIDTH: f64 = 800.0;
+const HEIGHT: f64 = 600.0;
+
 fn text(renderer: &mut Renderer, font: &sdl2_ttf::Font, text: &str, x: i32, y: i32) {
     let surface = font.render(text)
                 .blended(Color::RGBA(255, 255, 255, 255)).unwrap();
@@ -41,7 +44,7 @@ fn main() {
     let video = sdl_context.video().unwrap();
 
     // Create the window
-    let window = video.window("Starfield", 800, 600)
+    let window = video.window("Starfield", WIDTH as u32, HEIGHT as u32)
         .position_centered().opengl()
         .build().unwrap();
 
@@ -95,7 +98,7 @@ fn main() {
         // Render a fully black window
         renderer.set_draw_color(Color::RGB(0, 0, 0));
         renderer.clear();
-        let stars = get_stars(vx, vy, 800.0, 600.0);
+        let stars = get_stars(vx, vy, WIDTH, HEIGHT);
 
         // track starfield extents for debuging
         let mut stars_x_min: f64 = 0.0;
@@ -112,7 +115,7 @@ fn main() {
             stars_x_max = stars_x_max.max(x);
             stars_y_min = stars_y_min.min(y);
             stars_y_max = stars_y_max.max(y);
-            if x - vx < 0.0 || x - vx >= 800.0 || y - vy < 0.0 || y - vy >= 600.0 {
+            if x - vx < 0.0 || x - vx >= WIDTH || y - vy < 0.0 || y - vy >= HEIGHT {
                 continue;
             }
             stars_rendered_n += 1;
