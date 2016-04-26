@@ -88,10 +88,10 @@ fn main() {
         }
 
         let tmp = timer.ticks() as f64 / 1000.0;
-        rot += 15.0 * (tmp - step);
-        if rot > 360.0 {
-            rot -= 360.0;
-        }
+        //rot += 15.0 * (tmp - step);
+        //if rot > 360.0 {
+        //    rot -= 360.0;
+        //}
         vy -= 200.0 * (tmp - step);
         step = tmp;
 
